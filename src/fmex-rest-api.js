@@ -87,6 +87,26 @@ class fmex{
         })
     }
 
+    /* 获取最新的成交明细
+    GET https://api.fmex.com/v2/market/trades/$symbol
+
+    @parmas
+        before		查询某个 id 之前的 Trade
+        limit		默认为 20 条
+    */
+    async getTrade (symbol='btcusd_p',before=0,limit=1000) {
+        let str = ''
+        if(before){
+            str = `&before=${before}`
+        }
+
+        return await fetch(`${this.url}/v2/market/trades/${symbol}?limit=${limit}${str}`,{
+            method:'GET',
+        }).then(res => res.json()).then(res => {
+            return res.data
+        })
+    }
+
     /* 获取最新的深度明细
     GET https://api.fmex.com/v2/market/depth/$level/$symbol
 
